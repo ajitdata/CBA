@@ -1,0 +1,332 @@
+html, body {
+    height: 99%;
+    width: 99%;
+    margin: 0 auto;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f3f3f3;
+    /*border: 2px solid #000;*/
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    text-align: center;
+    padding: 20px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-box {
+    display: inline-block;
+    padding: 10px;
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+h1 {
+    margin: 0;
+}
+
+.green {
+    color: #28a745;
+}
+
+.orange {
+    color: #f39c12;
+}
+
+.yellow {
+    color: #f1c40f;
+}
+
+.blue {
+    color: #007bff;
+}
+
+.section-title {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: left;
+    padding-left: 5px;
+}
+.header-logout {
+    /* Align the logout button to the right */
+    margin-left: auto; /* This pushes the logout button to the far right */
+}
+.header-logout button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.header-logout button:hover {
+    background-color: #0056b3;
+}
+
+.input-section {
+   flex-grow: 3;
+    border: 1px solid #ddd;
+    display: flex;
+    background-color: #FFCC99; /* Light Orange */
+	
+}
+.inference-section {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-top: 0px; /* Reduced to 0px */
+    /* other existing styles... */
+	background-color: #90EE90
+
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    justify-content: flex-start;
+}
+
+.row label {
+    width: 200px;
+    margin-right: 10px;
+    text-align: left;
+}
+
+.row input {
+    width: 20%;
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.submit-row {
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
+}
+
+#submit-button, #refresh-button {
+    padding: 8px 15px;
+    cursor: pointer;
+    margin-right: 10px;
+	background-color: #007bff;
+	color: white;
+}
+
+.output-section {
+    flex-grow: 1;
+    border: 1px solid #ddd;
+    padding: 15px;
+	margin-bottom: 0px;
+	background-color: #ADD8E6; /* Light blue background */
+}
+
+.output-row {
+    display: flex;
+    justify-content: space-between;
+}
+
+.output-column {
+    flex-basis: 50%;
+    text-align: left;
+}
+
+.output-column input {
+    width: 35%;
+    padding: 5px;
+    margin-top: 5px;
+}
+.login-container {
+    width: 300px;
+    margin: 100px auto;
+    padding: 20px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+	background-color: #D3D3D3; /* This sets the background color to light grey */
+}
+
+.login-container input {
+    width: 90%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+	background-color: #D3D3D3; /* This sets the background color to light grey */
+	
+}
+
+.login-container button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 3px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
+
+.inference-section .section-title {
+    margin-bottom: 5px; /* Reduced bottom margin */
+}
+
+.inference-grid {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inference-category {
+    flex: 1;
+    margin-right: 10px; /* Adjust space between categories */
+}
+
+.inference-category h3 {
+    margin-top: 0; /* Removes top margin of subheadings */
+    margin-bottom: 5px; /* Reduced space below subheading */
+}
+
+/* Rest of your CSS for .inference-category ul, ul li, etc. */
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Could be more or less, depending on screen size */
+    resize: both; /* Enable resizing */
+    overflow-x: auto; /* Enable scroll if needed */
+	max-height: 50vh; /* Maximum height to ensure modal doesn't get too tall */
+    overflow-y: auto; /* Add a scrollbar if content is too long */
+
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-header {
+    padding: 5px;
+    cursor: move;
+    z-index: 5;
+    background-color: #2196F3;
+    color: white;
+}
+
+.excel-download-container {
+    text-align: center; /* Center the button */
+    margin: 20px 0; /* Adjust vertical spacing as needed */
+}
+.excel-icon {
+    cursor: pointer; /* Change cursor to indicate clickable */
+    width: 50px; /* Adjust as per your icon's size */
+    height: auto;
+    /* Add any additional styling as needed */
+}
+
+.left-side-input, .right-side-input {
+    flex: 1;
+    padding: 10px;
+}
+
+/* Aligning the first row of the right section with the "Initial Investment" row */
+.right-side-input {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.right-side-input .row:first-child {
+    margin-top: 0; /* Aligns top with the first row of the left side */	
+   
+}
+
+#metric-selection {
+    display: block;
+    margin-bottom: 0px;
+}
+#metric-info {
+    /* Styles for info display area */
+    text-align: left; /* Left align the text */
+    /* Add other styles as needed, like padding, margin, etc. */
+}
+
+#okButton {
+    background-color: #007bff; /* Bootstrap's 'success' green */
+    color: white; /* White text color */
+    border: none; /* Remove default border */
+    padding: 10px 20px; /* Padding for size */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+#okButton:hover {
+    background-color: #007bff; /* Darker green on hover for feedback */
+}
+
+.terminology-guide-container {
+    display: flex;
+    align-items: center; /* This ensures vertical alignment */
+    justify-content: flex-start; /* This aligns items to the start of the container */
+    margin-bottom: 10px; /* Adjust as needed for spacing below the container */
+	margin-top: 10px; /* Add margin-top as needed */
+}
+
+.terminology-guide {
+    margin-right: 20px; /* This adds some space between the text and the dropdown */
+}
+
+.terminology-guide label {
+    /* ... existing styles ... */
+    line-height: normal; /* Adjust this as needed */
+}
+
+.metric-dropdown select {
+    /* ... existing styles ... */
+    line-height: normal; /* Adjust this as needed */
+}
+
+/* Targeting input fields within the login container */
+.login-container input[type="text"],
+.login-container input[type="password"] {
+    /* other styles... */
+    color: #007bff; /* This sets the text color to light blue */
+    /* other styles... */
+}
+
+/* Targeting placeholder text specifically */
+.login-container input::placeholder {
+    color: #007bff; /* Light blue text for placeholders */
+    opacity: 1; /* Full opacity to make sure it's visible */
+}

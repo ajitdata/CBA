@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html>
+<head>
+<div id="myModal" class="modal">
+    <div class="modal-content" id="modalContent">
+        <div id="myModalheader" class="modal-header">
+            <span class="close">&times;</span>
+            <p>About the Tool</p>
+        </div>
+        <p>Welcome to the site! Please read this message before continuing.</p>
+        <p>The Cost-Benefit Analysis tool is a digital platform designed to assist project managers and
+        financial analysts in assessing the potential returns of investments. It serves as a gateway to
+        strategic financial planning, providing quantitative analysis and qualitative inferences to guide
+        users toward data driven decisions. Users can evaluate the viability and profitability of projects
+        by entering data such as initial investment, desired return, and time frames. The tool then
+        calculates key financial metrics Net Present Value (NPV), Return on Investment (ROI), and
+        Payback Period offering insights into whether an investment is sound.</p>
+        <button id="okButton">OK</button>
+    </div>
+</div>
+    <title>Cost-Benefit Analysis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.16.9/xlsx.full.min.js"></script>
+	<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+	<style>
+        /* Existing styles ... */
+
+        .top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+        }
+
+        .logo {
+            /* Adjust size as needed */
+            width: 75px;
+            height: auto;
+        }
+
+        .header-box {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        /* ... Other existing styles ... */
+    </style>
+	<script>
+      function validatePositive(inputField, fieldName) {
+    var value = document.getElementById(inputField).value;
+    var positiveDecimalRegex = /^[+]?([0-9]+(?:[\.][0-9]*)?|\.[0-9]+)$/; // Updated regular expression
+
+    if (value && !positiveDecimalRegex.test(value)) {
+        alert(fieldName + " can only be a positive real number.");
+        document.getElementById(inputField).value = ''; // Clear the field
+    }
+}
+
+    function calculateFinancials() {
+    var initialInvestment = parseFloat(document.getElementById('initial-investment').value);
+    var requiredRate = parseFloat(document.getElementById('required-rate').value);
+    var expectedRevenueYear = parseFloat(document.getElementById('expected-revenue-year').value);
+    var numberOfPeriods = parseFloat(document.getElementById('number-of-periods').value);
+    var avgAnnualCashFlow = parseFloat(document.getElementById('avg-annual-cash-flow').value);
+
+    if (initialInvestment < 0 || requiredRate < 0 || expectedRevenueYear < 0 || numberOfPeriods < 0 || avgAnnualCashFlow < 0) {
+        alert("Values cannot be negative.");
+        return;
+    }
+
+    // Calculate NPV
+    if (!isNaN(initialInvestment) && !isNaN(requiredRate) && !isNaN(expectedRevenueYear) && !isNaN(numberOfPeriods)) {
+        var npv = (expectedRevenueYear / Math.pow(1 + (requiredRate/100), numberOfPeriods)) - initialInvestment;
+        document.getElementById('npv-output').value = npv.toFixed(2);
+    } else {
+        document.getElementById('npv-output').value = 'Invalid input';
+    }
+
+    // Calculate ROI
+    if (!isNaN(initialInvestment) && !isNaN(expectedRevenueYear) && initialInvestment !== 0) {
+        var roi = (expectedRevenueYear - initialInvestment) / initialInvestment;
+        document.getElementById('roi-output').value = (roi * 100).toFixed(2) + '%';
+    } else {
+        document.getElementById('roi-output').value = 'Invalid input';
+    }
+
+    // Calculate Payback Period
+    if (!isNaN(initialInvestment) && !isNaN(avgAnnualCashFlow) && avgAnnualCashFlow > 0) {
+        var paybackPeriod = initialInvestment / avgAnnualCashFlow;
+        document.getElementById('payback-period-output').value = paybackPeriod.toFixed(2);
+    } else {
+        document.getElementById('payback-period-output').value = 'Invalid input';
+    }
+}
+
+        function clearValues() {
+            document.getElementById('initial-investment').value = '';
+            document.getElementById('required-rate').value = '';
+			document.getElementById('number-of-periods').value = '';
+            document.getElementById('expected-revenue-year').value = '';
+            document.getElementById('avg-annual-cash-flow').value = '';
+            document.getElementById('npv-output').value = '';
+            document.getElementById('roi-output').value = '';
+			document.getElementById('payback-period-output').value = '';			
+        }
+		function downloadExcel() {
+        var wb = XLSX.utils.book_new();
+        var ws_data = [
+            ["Input", "Value"],
+            ["Initial Investment", document.getElementById('initial-investment').value],
+            ["Required Rate", document.getElementById('required-rate').value],
+            ["Number Of Time Periods", document.getElementById('number-of-periods').value],
+            ["Expected Revenue Year", document.getElementById('expected-revenue-year').value],
+            ["Avg Annual Cash Flow", document.getElementById('avg-annual-cash-flow').value],
+            ["Output", ""],
+            ["NPV", document.getElementById('npv-output').value],
+            ["ROI", document.getElementById('roi-output').value],
+            ["Payback Period", document.getElementById('payback-period-output').value],
+        ];
+        var ws = XLSX.utils.aoa_to_sheet(ws_data);
+		
+        XLSX.utils.book_append_sheet(wb, ws, "Data");
+
+        XLSX.writeFile(wb, "Cost-Benefit-Analysis.xlsx");
+    }
+
+    </script>
+</head>
+<body>
+    <div class="content">
+	  <div class="top-bar">
+            <div class="header-content">
+                 <img src="{{ url_for('static', filename='images/OpenAI.PNG') }}" alt="Logo 2">
+                <div class="header-box">
+                    <h1>
+                        <span class="orange">Cost-</span>
+                        <span class="yellow">Benefit</span>
+                        <span class="blue">Analysis</span>
+                    </h1>
+                </div>
+            </div>
+            <div class="header-logout">
+                <button onclick="window.location.href='/'">Logout</button>
+            </div>
+			</div>
+ <div class="input-section">	   
+	<!-- Existing left half with input fields -->
+    <div class="left-side-input">
+    <h2 class="section-title">Input</h2>
+            <div class="row">
+                <label for="initial-investment">Initial Investment($):</label>
+                <input type="text" id="initial-investment" name="initial-investment" oninput="validatePositive('initial-investment', 'Initial Investment($)')">
+            </div>
+            <div class="row">
+                <label for="required-rate">Required Rate Of Return(%):</label>
+                <input type="text" id="required-rate" name="required-rate" step="0.01" oninput="validatePositive('required-rate', 'Required Rate Of Return(%)')">
+            </div>
+			<div class="row">
+                <label for="number-of-periods">Time Periods(Yrs):</label>
+                <input type="text" id="number-of-periods" name="number-of-periods" oninput="validatePositive('number-of-periods', 'Time Periods(Yrs)')">
+            </div>
+            <div class="row">
+                <label for="expected-revenue-year">Expected Revenue($):</label>
+                <input type="text" id="expected-revenue-year" name="expected-revenue-year" oninput="validatePositive('expected-revenue-year', 'Expected Revenue($)')">
+            </div>
+            <div class="row">
+                <label for="avg-annual-cash-flow">Annual Cash Flow($):</label>
+                <input type="text" id="avg-annual-cash-flow" name="avg-annual-cash-flow" oninput="validatePositive('avg-annual-cash-flow', 'Annual Cash Flow($)')">
+            </div>
+      </div>
+<!-- Right half for the dropdown -->
+    <div class="right-side-input">
+        <div class="row">
+            <select id="metric-selection" onchange="showMetricInfo()">
+                <option value="CBA">CBA</option>
+                <option value="NPV">NPV</option>
+                <option value="ROI">ROI</option>
+                <option value="Payback">Payback</option>
+            </select>
+        </div>
+        <div id="metric-info"></div>
+    </div>
+</div>
+
+            <div class="submit-row">
+                <button type="button" id="submit-button" onclick="calculateFinancials()">Submit</button>
+                <button type="button" id="refresh-button" onclick="clearValues()">Refresh</button>
+            </div>
+        </div>
+		
+        <div class="output-section">
+    <h2 class="section-title">Output</h2>
+    <div class="output-row">
+        <div class="output-column">
+            <label for="npv-output">NPV:</label>
+            <input type="text" id="npv-output" disabled>
+            <p class="formula-description">{[Expected Revenue /(1+ Rate)^Time Periods] - Initial Investment}</p>
+        </div>
+        <div class="output-column">
+            <label for="roi-output">ROI:</label>
+            <input type="text" id="roi-output" disabled>
+            <p class="formula-description">{([Expected Revenue - Initial Investment] / Initial Investment)*100}</p>
+        </div>
+        <div class="output-column">
+            <label for="payback-period-output">Payback Period:</label>
+            <input type="text" id="payback-period-output" disabled>
+            <p class="formula-description">(Initial Investment / Annual Cash Flow)</p>
+        </div>
+    </div>
+</div>
+<div class="excel-download-container">
+    <img src="{{ url_for('static', filename='images/Microsoft-Excel.png') }}" alt="Download Excel" onclick="downloadExcel()" class="excel-icon">
+</div>
+<div class="inference-section">
+<h2 class="section-title">Inference</h2>
+    <!-- Removed the 'Inference' heading -->
+    <div class="inference-grid">
+        <div class="inference-category">
+            <h3>NPV (Net Present Value)</h3>
+            <ul>
+                <li>Positive NPV (> 0): Indicates profitability and a good financial investment.</li>
+                <li>Negative NPV (< 0): Suggests losses, typically not recommended.</li>
+                <li>NPV = 0: Break-even point, requires further analysis.</li>
+            </ul>
+        </div>
+        <div class="inference-category">
+            <h3>ROI (Return on Investment)</h3>
+            <ul>
+                <li>High ROI: Indicates favorable returns compared to investment cost.</li>
+                <li>Low/Negative ROI: Shows minimal or negative returns, indicating poor performance.</li>
+            </ul>
+        </div>
+        <div class="inference-category">
+            <h3>Payback Period</h3>
+            <ul>
+                <li>Shorter Payback Period: Implies quicker recovery of investment, reducing risk.</li>
+                <li>Longer Payback Period: Longer time to recover costs, implying higher risk.</li>
+            </ul>
+        </div>
+    </div>
+</div>
+   </script>
+</body>
+</html>
